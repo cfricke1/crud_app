@@ -31,6 +31,6 @@ public class NameListGetServlet extends HttpServlet {
         String jsonString = jsonb.toJson(peopleList);
 
         // Write out that string
-        out.println("Hello");
+        out.println(jsonString);
     }
 }
