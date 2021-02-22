@@ -20,7 +20,7 @@ function updateTable() {
                 // Print the first name
                 console.log(json_result[i].first, json_result[i].last);
                 $('#datatable tbody:last').append('<tr><td>'
-                    +htmlSafe(json_result[i].id)
+                    +json_result[i].id
                     +'</td><td>'
                     +htmlSafe(json_result[i].first)
                     +'</td><td>'
@@ -30,8 +30,10 @@ function updateTable() {
                     +'</td><td>'
                     +htmlSafe(json_result[i].phone)
                     +'</td><td>'
-                    +htmlSafe(json_result[i].dateTime)
+                    +json_result[i].birthday
                     +'</td></tr>');
+
+                    $('#delete').remove();
             }
             console.log("Done");
         }

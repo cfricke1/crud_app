@@ -21,7 +21,7 @@ public class NameListGetServlet extends HttpServlet {
         log.log(Level.FINE, "Get people servlet");
 
         // Get setup up to output JSON text
-        response.setContentType("text/plain");
+        response.setContentType("Hello");
         PrintWriter out = response.getWriter();
 
         // Use our DAO to get a list of people
