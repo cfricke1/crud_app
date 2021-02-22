@@ -9,7 +9,7 @@ function updateTable() {
     // Call your code.
 
 // Define a URL
-    let url = "/api/name_list_get";
+    let url = "api/name_list_get";
 
 // Start a web call. Specify:
 // URL
@@ -33,7 +33,7 @@ function updateTable() {
                     +json_result[i].birthday
                     +'</td></tr>');
 
-                    $('#delete').remove();
+                $('#delete').remove();
             }
             console.log("Done");
         }

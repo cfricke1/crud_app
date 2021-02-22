@@ -1,5 +1,8 @@
 package edu.simpson.cis320.crud_app;
 
+import edu.simpson.cis320.crud_app.Person;
+import edu.simpson.cis320.crud_app.PersonDAO;
+
 import javax.json.bind.Jsonb;
 import javax.json.bind.JsonbBuilder;
 import javax.servlet.*;
@@ -18,10 +21,10 @@ public class NameListGetServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        log.log(Level.FINE, "Get people servlet");
+        log.log(Level.FINE, "Get people");
 
         // Get setup up to output JSON text
-        response.setContentType("Hello");
+        response.setContentType("application/json");
         PrintWriter out = response.getWriter();
 
         // Use our DAO to get a list of people
