@@ -1,6 +1,6 @@
 // Main Javascript File
 function htmlSafe(data) {
-    return data.replace(/&/g, "&amp;").replace(/>/g, "&gt;").replace(/</g, "&lt;")
+    return data.replace(/&/g, "&amp;").replace(/>/g, "&gt;").replace(/</g, "&lt;");
 }
 
 function formatPhoneNumber(phoneNumberString) {
@@ -46,11 +46,10 @@ function updateTable() {
     $.getJSON(url, null, function(json_result) {
             for (let i = 0; i < json_result.length; i++) {
                 // Print the first name
-                console.log(json_result[i].first, json_result[i].last);
+                console.log(json_result[i].first);
 
-                bday = getJSDateFromSQLDate(json_result[i].birthday);
-                bdayString = bday.toLocaleDateString();
-                console.log(bday);
+                birthdayDate = getJSDateFromSQLDate(json_result[i].birthday);
+                birthdayString = birthdayDate.toLocaleDateString();
 
                 $('#datatable tbody:last').append('<tr><td>'
                     +json_result[i].id
@@ -63,7 +62,7 @@ function updateTable() {
                     +'</td><td>'
                     +formatPhoneNumber(htmlSafe(json_result[i].phone))
                     +'</td><td>'
-                    +htmlSafe(bdayString)
+                    +htmlSafe(birthdayString)
                     +'</td></tr>');
 
                 $('#delete').remove();
@@ -79,7 +78,7 @@ updateTable();
 function showDialogAdd() {
 
     // Print that we got here
-    console.log("Opening add item dialog");
+    console.log("Add Item");
 
     // Clear out the values in the form.
     // Otherwise we'll keep values from when we last
@@ -87,6 +86,8 @@ function showDialogAdd() {
     // I'm getting it started, you can finish.
     $('#id').val("");
     $('#firstName').val("");
+    $('#firstName').removeClass("is-valid");
+    $('#firstName').removeClass("is-invalid");
 
     // Show the hidden dialog
     $('#myModal').modal('show');
@@ -102,18 +103,74 @@ function saveChanges() {
     let firstName = $('#firstName').val();
     console.log("First name: " + firstName);
 
-    let reg = /^[A-Za-z]{1,10}$/;
+    let reg = /^[^0-9]{1,25}$/;
 
     // Test the regular expression to see if there is a match
     if (reg.test(firstName)) {
         $('#firstName').removeClass("is-invalid");
         $('#firstName').addClass("is-valid");
     } else {
-        $('#firstName').removeClass("is-valid");
-        $('#firstName').addClass("is-invalid");
+       $('#firstName').removeClass("is-valid");
+       $('#firstName').addClass("is-invalid");
+    }
+
+    let lastName = $('#lastName').val();
+    console.log("Last name: " + lastName);
+
+    reg = /^[^0-9]{1,25}$/;
+
+    // Test the regular expression to see if there is a match
+    if (reg.test(lastName)) {
+        $('#lastName').removeClass("is-invalid");
+        $('#lastName').addClass("is-valid");
+    } else {
+        $('#lastName').removeClass("is-valid");
+        $('#lastName').addClass("is-invalid");
+    }
+
+    let email = $('#email').val();
+    console.log("Email: " + email);
+
+    reg = /^[^0-9]{1,25}$/;
+
+    // Test the regular expression to see if there is a match
+    if (reg.test(email)) {
+        $('#email').removeClass("is-invalid");
+        $('#email').addClass("is-valid");
+    } else {
+        $('#email').removeClass("is-valid");
+        $('#email').addClass("is-invalid");
+    }
+
+    let phone = $('#phone').val();
+    console.log("Phone: " + phone);
+
+    reg = /^(\d{3})(\d{3})(\d{4})$/;
+
+    // Test the regular expression to see if there is a match
+    if (reg.test(phone)) {
+        $('#phone').removeClass("is-invalid");
+        $('#phone').addClass("is-valid");
+    } else {
+        $('#phone').removeClass("is-valid");
+        $('#phone').addClass("is-invalid");
+    }
+
+    let birthday = $('#birthday').val();
+    console.log("Birthday: " + birthday);
+
+    reg = /^(\d{4})([/])(\d{2})([/])(\d{2})$/;
+
+    // Test the regular expression to see if there is a match
+    if (reg.test(birthday)) {
+        $('#birthday').removeClass("is-invalid");
+        $('#birthday').addClass("is-valid");
+    } else {
+        $('#birthday').removeClass("is-valid");
+        $('#birthday').addClass("is-invalid");
     }
 }
 
 let saveChangesButton = $('#saveChanges');
-saveChangesButton.on("click", saveChanges());
+saveChangesButton.on("click", saveChanges);
 
