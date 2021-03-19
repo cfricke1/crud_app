@@ -159,7 +159,7 @@ function saveChanges() {
     let birthday = $('#birthday').val();
     console.log("Birthday: " + birthday);
 
-    reg = /^(\d{4})([/])(\d{2})([/])(\d{2})$/;
+    reg = /^\d{4}\-\d{2}\-\d{2}$/;
 
     // Test the regular expression to see if there is a match
     if (reg.test(birthday)) {
