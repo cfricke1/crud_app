@@ -44,6 +44,7 @@ function updateTable() {
 // Data to pass (nothing in this case)
 // Function to call when we are done
     $.getJSON(url, null, function(json_result) {
+            $('#datatable tbody tr').remove();
             for (let i = 0; i < json_result.length; i++) {
                 // Print the first name
                 console.log(json_result[i].first);
@@ -64,11 +65,10 @@ function updateTable() {
                     +'</td><td>'
                     +htmlSafe(birthdayString)
                     +'</td></tr>');
-
-                $('#delete').remove();
             }
             console.log("Done");
         }
+
     );
 }
 updateTable();
@@ -91,6 +91,10 @@ function showDialogAdd() {
 
     // Show the hidden dialog
     $('#myModal').modal('show');
+
+    $('#myModal').on('shown.bs.modal', function () {
+        $('#firstName').focus();
+    });
 }
 
 // There's a button in the form with the ID "addItem"
@@ -99,9 +103,11 @@ let addItemButton = $('#addItem');
 addItemButton.on("click", showDialogAdd);
 
 function saveChanges() {
-    console.log("Save Changes")
+    console.log("Save Changes");
     let firstName = $('#firstName').val();
     console.log("First name: " + firstName);
+
+    let isValid = true;
 
     let reg = /^[^0-9]{1,25}$/;
 
@@ -112,7 +118,9 @@ function saveChanges() {
     } else {
        $('#firstName').removeClass("is-valid");
        $('#firstName').addClass("is-invalid");
+       isValid = false;
     }
+
 
     let lastName = $('#lastName').val();
     console.log("Last name: " + lastName);
@@ -126,6 +134,7 @@ function saveChanges() {
     } else {
         $('#lastName').removeClass("is-valid");
         $('#lastName').addClass("is-invalid");
+        isValid = false;
     }
 
     let email = $('#email').val();
@@ -140,12 +149,13 @@ function saveChanges() {
     } else {
         $('#email').removeClass("is-valid");
         $('#email').addClass("is-invalid");
+        isValid = false;
     }
 
     let phone = $('#phone').val();
     console.log("Phone: " + phone);
 
-    reg = /^(\d{3})(\d{3})(\d{4})$/;
+    reg = /^(\d{3})-(\d{3})-(\d{4})$/;
 
     // Test the regular expression to see if there is a match
     if (reg.test(phone)) {
@@ -154,6 +164,7 @@ function saveChanges() {
     } else {
         $('#phone').removeClass("is-valid");
         $('#phone').addClass("is-invalid");
+        isValid = false;
     }
 
     let birthday = $('#birthday').val();
@@ -168,9 +179,39 @@ function saveChanges() {
     } else {
         $('#birthday').removeClass("is-valid");
         $('#birthday').addClass("is-invalid");
+        isValid = false;
+    }
+
+    if(isValid) {
+        console.log("Valid Form");
+        let dataToServer = {first: firstName, last: lastName, email: email, phone: phone, birthday: birthday};
+        console.log(dataToServer);
+        let url = "api/name_list_edit";
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: JSON.stringify(dataToServer),
+            success: function(dataFromServer) {
+                console.log(dataFromServer);
+                $('#myModal').modal('hide');
+                updateTable();
+            },
+            contentType: "application/json",
+            dataType: 'text' // Could be JSON or whatever too
+        });
+    }
+    else {
+        console.log("Not Valid");
     }
 }
+
 
 let saveChangesButton = $('#saveChanges');
 saveChangesButton.on("click", saveChanges);
 
+$(document).keydown(function (e) {
+    console.log(e.keyCode);
+    if (e.keyCode == 65 && !$('myModal').is(':visible')) {
+        showDialogAdd();
+    }
+});
