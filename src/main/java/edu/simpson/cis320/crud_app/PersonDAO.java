@@ -145,4 +145,48 @@ public class PersonDAO {
             catch (Exception e) { log.log(Level.SEVERE, "Error", e ); }
         }
     }
+    public static void deletePerson(Person person) {
+        log.log(Level.FINE, "Delete Person");
+
+        // Declare our variables
+        Connection conn = null;
+        PreparedStatement stmt = null;
+
+        // Databases are unreliable. Use some exception handling
+        try {
+            // Get our database connection
+            conn = DBHelper.getConnection();
+
+            // This is a string that is our SQL query.
+            // Update for all our fields
+
+            String sql = "delete from person where id = ?";
+            stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, person.getId());
+
+
+
+            // If you had parameters, it would look something like
+            // String sql = "select id, first, last, phone from person where id = ?";
+
+            // If you had parameters, they would be set wit something like:
+            // stmt.setString(1, "1");
+
+            // Execute the SQL and get the results
+            stmt.executeUpdate();
+
+
+        } catch (SQLException se) {
+            log.log(Level.SEVERE, "SQL Error", se );
+        } catch (Exception e) {
+            log.log(Level.SEVERE, "Error", e );
+        } finally {
+            // Ok, close our result set, statement, and connection
+            try { if(stmt != null) stmt.close(); }
+            catch (Exception e) { log.log(Level.SEVERE, "Error", e ); }
+
+            try { if(conn != null) conn.close(); }
+            catch (Exception e) { log.log(Level.SEVERE, "Error", e ); }
+        }
+    }
 }

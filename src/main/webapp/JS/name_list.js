@@ -64,15 +64,38 @@ function updateTable() {
                     +formatPhoneNumber(htmlSafe(json_result[i].phone))
                     +'</td><td>'
                     +htmlSafe(birthdayString)
+                    +'</td><td>'
+                    +'<button type=\'button\' name=\'delete\' class=\'deleteButton btn btn-danger\' value=\''+json_result[i].id+'\'>' +
+                    'Delete</button>'
                     +'</td></tr>');
             }
             console.log("Done");
+            let buttons = $(".deleteButton");
+            buttons.on("click", deleteItem);
         }
 
     );
 }
 updateTable();
 
+function deleteItem(e) {
+    console.log("Delete");
+    console.log(e.target.value);
+    let dataToServer = {id: e.target.value};
+    console.log(dataToServer);
+    let url = "api/name_list_delete";
+    $.ajax({
+        type: 'POST',
+        url: url,
+        data: JSON.stringify(dataToServer),
+        success: function(dataFromServer) {
+            console.log(dataFromServer);
+            updateTable();
+        },
+        contentType: "application/json",
+        dataType: 'text' // Could be JSON or whatever too
+    });
+}
 
 // Called when "Add Item" button is clicked
 function showDialogAdd() {

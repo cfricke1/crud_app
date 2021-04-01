@@ -9,18 +9,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
-@WebServlet(name = "NameListEditServlet", value = "/api/name_list_edit")
-public class NameListEditServlet extends HttpServlet {
-    private final static Logger log = Logger.getLogger(PersonDAO.class.getName());
+@WebServlet(name = "NameListDeleteServlet", value = "/api/name_list_delete")
+public class NameListDeleteServlet extends HttpServlet {
+    private final static Logger log = Logger.getLogger(NameListDeleteServlet.class.getName());
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        log.log(Level.FINE, "Insert Data");
+        log.log(Level.FINE, "Delete Data");
 
         // Get setup up to output JSON text
         response.setContentType("application/json");
@@ -46,7 +45,8 @@ public class NameListEditServlet extends HttpServlet {
         // we'll keep things simple.
         out.println("Object test: "+person.getFirst());
 
-        PersonDAO.addPerson(person);
+        PersonDAO.deletePerson(person);
+
 
     }
 }
