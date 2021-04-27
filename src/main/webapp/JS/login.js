@@ -1,5 +1,5 @@
 // This calls our back-end Java program that sets our session info
-function setSessionJava() {
+function login() {
 
     var url = "api/set_session_servlet";
 
@@ -22,7 +22,7 @@ function setSessionJava() {
 }
 
 // This gets session info from our back-end servlet.
-function getSessionJava() {
+function getLogin() {
 
     var url = "api/get_session_servlet";
 
@@ -35,7 +35,7 @@ function getSessionJava() {
 }
 
 // This method calls the servlet that invalidates our session
-function invalidateSessionButton() {
+function invalidateLogin() {
 
     var url = "api/invalidate_session_servlet";
 
@@ -46,11 +46,11 @@ function invalidateSessionButton() {
 }
 
 // Hook the functions above to our buttons
-button = $('#getSessionJava');
-button.on("click", getSessionJava);
+button = $('#getLogin');
+button.on("click", getLogin);
 
-button = $('#setSessionJava');
-button.on("click", setSessionJava);
+button = $('#setLogin');
+button.on("click", login);
 
-button = $('#invalidateSession');
-button.on("click", invalidateSessionButton);
+button = $('#invalidateLogin');
+button.on("click", invalidateLogin);

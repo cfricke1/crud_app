@@ -124,7 +124,10 @@ public class NameListEditServlet extends HttpServlet {
         // we'll keep things simple.
         out.println("Object test: " + person.getFirst());
 
-        PersonDAO.addPerson(person);
+        if (person.getId() == 0)
+            PersonDAO.addPerson(person);
+        else
+            PersonDAO.editPerson(person);
 
     }
 }
